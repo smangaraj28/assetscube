@@ -17,7 +17,7 @@ def get_user_entities(con, cur, getuserentities):
                                                     entitymobile AS "entityMobile", entitywebsite AS "entityWebsite",
                                                     entityemail AS "entityEmail", entitystartdate AS "entityStartDate",
                                                     entityfiscalyear AS "entityFiscalYear", entitytimezone AS "entityTimeZone",
-                                                    octime AS "octTime", lmtime AS "lmtTime", userid AS "userId"
+                                                    octime AS "octTime", lmtime AS "lmtTime", muserid AS "muserId"
                                                     FROM unihot.entity
                                                     WHERE entityid in
                                                             (select entityid from unihot.useraccess
@@ -25,7 +25,7 @@ def get_user_entities(con, cur, getuserentities):
                                                           and entitystatus = %s
                                                     ) as a
                                                 """, (getuserentities['keys']['userid'],
-                                                      getuserentities['keys']['entitystatus'],))
+                                                      getuserentities['keys']['entitystatus']))
     print(command)
     cur, s, f1 = db.mydbfunc(con, cur, command)
     return cur, s, f1
@@ -59,7 +59,7 @@ def insert_entity(con, cur, insertentitybranch):
                                      entitywebsite,
                                      lmtime,
                                      octime,
-                                     userid
+                                     muserid
                                     )
                                     VALUES (%s,%s,%s,
                                             %s,%s,%s,
@@ -95,7 +95,7 @@ def insert_entity(con, cur, insertentitybranch):
                            insertentitybranch['values']['entitytaxid'],
                            insertentitybranch['values']['entitytimezone'],
                            insertentitybranch['values']['entitywebsite'],
-                           insertentitybranch['values']['userid']
+                           insertentitybranch['values']['muserid']
                            ))
 
     print(command)
@@ -132,7 +132,7 @@ def modify_entity(con, cur, modifyentitybranch):
                                          entitywebsite = %s,
                                          lmtime = CURRENT_TIMESTAMP,
                                          octime = %s,
-                                         userid = %s
+                                         muserid = %s
                                          WHERE entityid = %s
                                          RETURNING entityid;
                                         """,
@@ -160,7 +160,7 @@ def modify_entity(con, cur, modifyentitybranch):
                            modifyentitybranch['values']['entitytimezone'],
                            modifyentitybranch['values']['entitywebsite'],
                            modifyentitybranch['values']['octime'],
-                           modifyentitybranch['values']['userid'],
+                           modifyentitybranch['values']['muserid'],
                            modifyentitybranch['values']['entityid']
                            ))
 
@@ -263,7 +263,7 @@ def get_user_entity_branches(con, cur, getuserentitybranches):
                                                     entitybranchphone AS "entityBranchPhone", entitybranchfax AS "entityBranchFax",
                                                     entitybranchmobile AS "entityBranchMobile", entitybranchwebsite AS "entityBranchWebsite",
                                                     entitybranchemail AS "entityBranchEmail", entitybranchstartdate AS "entityBranchStartDate",
-                                                    octime AS "octTime", lmtime AS "lmtTime", userid AS "userId"
+                                                    octime AS "octTime", lmtime AS "lmtTime", muserid AS "muserId"
                                                     FROM unihot.entity_branch
                                                     WHERE entitybranchid in
                                                             (select entitybranchid from unihot.useraccess
@@ -276,7 +276,7 @@ def get_user_entity_branches(con, cur, getuserentitybranches):
                                                 """, (getuserentitybranches['keys']['userid'],
                                                       getuserentitybranches['keys']['entityid'],
                                                       getuserentitybranches['keys']['entitybranchstatus'],
-                                                      getuserentitybranches['keys']['entityid'],))
+                                                      getuserentitybranches['keys']['entityid']))
     print(command)
     cur, s, f1 = db.mydbfunc(con, cur, command)
     return cur, s, f1
@@ -306,7 +306,7 @@ def insert_entity_branch(con, cur, insertentitybranch):
                          entitybranchwebsite,
                          lmtime,
                          octime,
-                         userid
+                         muserid
                         ) 
 
 
@@ -340,7 +340,7 @@ def insert_entity_branch(con, cur, insertentitybranch):
                               insertentitybranch['values']['entitybranchstate'],
                               insertentitybranch['values']['entitybranchstatus'],
                               insertentitybranch['values']['entitybranchwebsite'],
-                              insertentitybranch['values']['userid']
+                              insertentitybranch['values']['muserid']
                           ))
 
     print(command)
@@ -373,7 +373,7 @@ def modify_entity_branch(con, cur, modifyentitybranch):
                          entitybranchwebsite = %s,
                          lmtime = CURRENT_TIMESTAMP,
                          octime = %s,
-                         userid = %s 
+                         muserid = %s 
                         WHERE entitybranchid = %s
                          RETURNING entitybranchid;
                         """,
@@ -398,7 +398,7 @@ def modify_entity_branch(con, cur, modifyentitybranch):
                               modifyentitybranch['values']['entitybranchstatus'],
                               modifyentitybranch['values']['entitybranchwebsite'],
                               modifyentitybranch['values']['octime'],
-                              modifyentitybranch['values']['userid'],
+                              modifyentitybranch['values']['muserid'],
                               modifyentitybranch['values']['entitybranchid']
                           ))
 

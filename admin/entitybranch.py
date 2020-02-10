@@ -126,12 +126,12 @@ def entity_branch():
         attempted_entitybranchstate = request.get_json(force=True)['entitybranchstate']
         attempted_entitybranchstatus = request.get_json(force=True)['entitybranchstatus']
         attempted_entitybranchwebsite = request.get_json(force=True)['entitybranchwebsite']
-        attempted_userid = request.get_json(force=True)['userid']
+        attempted_muserid = request.get_json(force=True)['muserid']
 
         attempted_roleid = request.get_json(force=True)['roleid']
         attempted_logintype = request.get_json(force=True)['logintype']
         attempted_usertype = request.get_json(force=True)['usertype']
-        print('userid', attempted_userid)
+        print('muserid', attempted_muserid)
         s = 0
         f = []  # logs for tech guys
         t = None  # message to front end
@@ -186,7 +186,7 @@ def entity_branch():
         insertentitybranch['values']['entitybranchstate'] = attempted_entitybranchstate
         insertentitybranch['values']['entitybranchstatus'] = attempted_entitybranchstatus
         insertentitybranch['values']['entitybranchwebsite'] = attempted_entitybranchwebsite
-        insertentitybranch['values']['userid'] = attempted_userid
+        insertentitybranch['values']['muserid'] = attempted_muserid
 
         if s <= 0:
 
@@ -317,12 +317,12 @@ def entity_branch():
         attempted_entitybranchstate = request.get_json(force=True)['entitybranchstate']
         attempted_entitybranchstatus = request.get_json(force=True)['entitybranchstatus']
         attempted_entitybranchwebsite = request.get_json(force=True)['entitybranchwebsite']
-        attempted_userid = request.get_json(force=True)['userid']
+        attempted_muserid = request.get_json(force=True)['muserid']
 
         attempted_roleid = request.get_json(force=True)['roleid']
         attempted_logintype = request.get_json(force=True)['logintype']
         attempted_usertype = request.get_json(force=True)['usertype']
-        print('userid',attempted_userid)
+        print('muserid',attempted_muserid)
         s = 0
         f = []  # logs for tech guys
         t = None  # message to front end
@@ -377,7 +377,7 @@ def entity_branch():
         modifyentitybranch['values']['entitybranchstate'] = attempted_entitybranchstate
         modifyentitybranch['values']['entitybranchstatus'] = attempted_entitybranchstatus
         modifyentitybranch['values']['entitybranchwebsite'] = attempted_entitybranchwebsite
-        modifyentitybranch['values']['userid'] = attempted_userid
+        modifyentitybranch['values']['muserid'] = attempted_muserid
 
         if s <= 0:
 

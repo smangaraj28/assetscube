@@ -138,7 +138,7 @@ def entity():
         attempted_entitytaxid = request.get_json(force=True)['entitytaxid']
         attempted_entitytimezone = request.get_json(force=True)['entitytimezone']
         attempted_entitywebsite = request.get_json(force=True)['entitywebsite']
-        attempted_userid = request.get_json(force=True)['userid']
+        attempted_muserid = request.get_json(force=True)['muserid']
 
         attempted_roleid = request.get_json(force=True)['roleid']
         attempted_logintype = request.get_json(force=True)['logintype']
@@ -207,7 +207,7 @@ def entity():
         insertentity['values']['entitytaxid'] = attempted_entitytaxid
         insertentity['values']['entitytimezone'] = attempted_entitytimezone
         insertentity['values']['entitywebsite'] = attempted_entitywebsite
-        insertentity['values']['userid'] = attempted_userid
+        insertentity['values']['userid'] = attempted_muserid
         if s <= 0:
 
             cur, s, f1 = processdb.insert_entity(con, cur, insertentity)
@@ -338,7 +338,7 @@ def entity():
         attempted_entitytaxid = request.get_json(force=True)['entitytaxid']
         attempted_entitytimezone = request.get_json(force=True)['entitytimezone']
         attempted_entitywebsite = request.get_json(force=True)['entitywebsite']
-        attempted_userid = request.get_json(force=True)['userid']
+        attempted_muserid = request.get_json(force=True)['muserid']
 
         attempted_roleid = request.get_json(force=True)['roleid']
         attempted_logintype = request.get_json(force=True)['logintype']
@@ -407,7 +407,7 @@ def entity():
         modifyentity['values']['entitytaxid'] = attempted_entitytaxid
         modifyentity['values']['entitytimezone'] = attempted_entitytimezone
         modifyentity['values']['entitywebsite'] = attempted_entitywebsite
-        modifyentity['values']['userid'] = attempted_userid
+        modifyentity['values']['muserid'] = attempted_muserid
         if s <= 0:
 
             cur, s, f1 = processdb.modify_entity(con, cur, modifyentity)

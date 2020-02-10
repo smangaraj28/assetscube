@@ -12,7 +12,7 @@ CREATE TABLE unihot.userlogin (
     userstatlstupdt         timestamp with time zone NOT NULL,
     octime                  timestamp with time zone NOT NULL,
     lmtime                  timestamp with time zone NOT NULL,
-    CONSTRAINT uid PRIMARY KEY (userid, logintype,usertype)
+    CONSTRAINT user_login_pk PRIMARY KEY (userid, logintype,usertype)
     );
 
 --Creation of Admin user
@@ -32,7 +32,7 @@ create table unihot.entity
 (
     entityid          varchar(100) DEFAULT (('EN'::text || to_char(CURRENT_TIMESTAMP, 'DDMMYYYY'::text)) ||
                                              nextval('unihot.entityid_sequence'::regclass))
-                                                NOT NULL CONSTRAINT entity_pkey PRIMARY KEY,
+                                                NOT NULL CONSTRAINT entity_pk PRIMARY KEY,
     entityname        varchar(100)    NOT NULL,
     entityshortname   varchar(100),
     entitycategory    varchar(100),
@@ -56,9 +56,9 @@ create table unihot.entity
     entitystartdate   varchar(100),
     entityfiscalyear  varchar(100),
     entitytimezone    varchar(100),
-    octime            timestamp with time zone    NOT NULL, --First Creation time
-    lmtime            timestamp with time zone    NOT NULL, -- Last Modification Time
-    muserid            varchar(100)                NOT NULL  -- Creation/Last Modified User
+    octime            timestamp with time zone    NOT NULL, --> First Creation time
+    lmtime            timestamp with time zone    NOT NULL, --> Last Modification Time
+    muserid           varchar(100)                NOT NULL  --> Creation/Last Modified User
 );
 
 --INSERT for public entity
@@ -77,8 +77,8 @@ create table unihot.entity_branch
 (
     entitybranchid          varchar(100) DEFAULT (('BR'::text || to_char(CURRENT_TIMESTAMP, 'DDMMYYYY'::text)) ||
                                                     nextval('unihot.entitybranchid_sequence'::regclass)) 
-                                                    NOT NULL CONSTRAINT entitybranch_pkey primary key,
-    entityid                varchar(100)  NOT NULL CONSTRAINT entitybranch_entityid_fkey  references unihot.entity,
+                                                    NOT NULL CONSTRAINT entity_branch_pk PRIMARY KEY,
+    entityid                varchar(100)  NOT NULL CONSTRAINT entitybranch_entityid_fk  references unihot.entity,
     entitybranchname        varchar(100),
     entitybranchshortname   varchar(100),
     entitybranchcategory    varchar(100),
@@ -114,13 +114,13 @@ CREATE TABLE unihot.useraccess (
     entity                     varchar(20) NOT NULL ,
     entitybranch               varchar(10) NOT NULL ,
     defaultindicator           varchar(1) NOT NULL,
-    roleid                     varchar(100),  --> from role setup table ADMIN,READONLY,WRITE,NODELETE
-    site                       varchar(100),  --> nc - Nawalcube, dv - developer, au - auth, ng - NawalGold
-    accessstatus               varchar(2) NOT NULL, --> (A- Active, B-Blocked) for the site,
-    muserid                    varchar(100) NOT NULL, --> Who Modified/Created User
-    octime                     timestamp with time zone    NOT NULL, --First Creation time
-    lmtime                     timestamp with time zone    NOT NULL, -- Last Modification Time
-    CONSTRAINT usac PRIMARY KEY (userid, logintype, usertype, entity, entitybranch, site)
+    roleid                     varchar(100),            --> from role setup table ADMIN,READONLY,WRITE,NODELETE
+    site                       varchar(100),            --> nc - Nawalcube, dv - developer, au - auth, ng - NawalGold
+    accessstatus               varchar(2) NOT NULL,     --> (A- Active, B-Blocked) for the site,
+    muserid                    varchar(100),            --> Who Modified/Created User
+    octime                     timestamp with time zone    NOT NULL,    --> First Creation time
+    lmtime                     timestamp with time zone    NOT NULL,    --> Last Modification Time
+    CONSTRAINT user_access_pk PRIMARY KEY (userid, logintype, usertype, entity, entitybranch, site)
     );
 
 --INSERT for public entity
@@ -130,13 +130,15 @@ CREATE TABLE unihot.useraccess (
 CREATE TABLE unihot.roledetails (
     roleid                  varchar(100) NOT NULL,
     rolename                varchar(100) NOT NULL,
-    entity                  varchar(20) NOT NULL REFERENCES unihot.entity(entityid),
-    site                    varchar(100),  --> nc - Nawalcube, dv - developer, au - auth
-    roleidstatus            varchar(2) NOT NULL, --> (A- Active, B-Blocked) for the site
-    octime                  timestamp with time zone    NOT NULL, --First Creation time
-    lmtime                  timestamp with time zone    NOT NULL, -- Last Modification Time
-    muserid                  varchar(100)                NOT NULL,  -- Creation/Last Modified User
-    CONSTRAINT us PRIMARY KEY (roleid, entity, site)
+    entityid                varchar(100) NOT NULL REFERENCES unihot.entity(entityid),
+    entitybranchid          varchar(100) NOT NULL REFERENCES unihot.entity_branch(entitybranchid),
+    site                    varchar(100),                               --> nc - Nawalcube, dv - developer, au - auth
+    rolestatus              varchar(2) NOT NULL,                        --> (A- Active, B-Blocked) for the site
+    modulerefid             varchar(100) NOT NULL,                      --> 'A','I','D' Active/Inactive/Delete
+    octime                  timestamp with time zone    NOT NULL,       -->  First Creation time
+    lmtime                  timestamp with time zone    NOT NULL,       --> Last Modification Time
+    muserid                  varchar(100)               NOT NULL,       --> Creation/Last Modified User
+    CONSTRAINT role_details_pk PRIMARY KEY (roleid, entityid, entitybranchid)
     );
 
 --INSERT for public entity
@@ -168,6 +170,29 @@ CREATE TABLE unihot.secrettkn (
 INSERT INTO unihot.secrettkn VALUES ('secret01','31082019193003',CURRENT_TIMESTAMP);
 
 
+--master Module/SubModule Table
+CREATE TABLE unihot.moduledetails (
+    moduleid                varchar(100) NOT NULL,
+    modulename              varchar(100) NOT NULL,
+    submoduleid             varchar(100) NOT NULL,
+    submodulename           varchar(100) NOT NUll,
+    modulestatus            varchar(2),
+    octime                  timestamp with time zone    NOT NULL, --First Creation time
+    lmtime                  timestamp with time zone    NOT NULL, -- Last Modification Time
+    CONSTRAINT module_details_pk PRIMARY KEY (moduleid, submoduleid)
+);
+
+--ModuleAccess Table
+CREATE TABLE unihot.moduleaccess (
+    modulerefid             varchar(100) NOT NULL,                      -->  'A','I','D' (Active/Inactive/Delete)
+    moduleid                varchar(100) NOT NULL,
+    submoduleid             varchar(100) NOT NULL,
+    submoduleaccess         varchar(2) NOT NULL,                        --> 'W','R','N' (Write/Read/No)
+    octime                  timestamp with time zone    NOT NULL,       -->  First Creation time
+    lmtime                  timestamp with time zone    NOT NULL,       -->  Last Modification Time
+    muserid                 varchar(100),                               -->  Who Last Modified
+    CONSTRAINT module_access_pk PRIMARY KEY (modulerefid, moduleid,submoduleid )
+);
 
 
 
