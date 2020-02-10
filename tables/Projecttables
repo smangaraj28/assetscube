@@ -126,9 +126,14 @@ CREATE TABLE unihot.useraccess (
 --INSERT for public entity
 --INSERT INTO unihot.useraccess VALUES ('01','PUBLIC','01','nc','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 
+CREATE SEQUENCE unihot.roleid_sequence
+    START 1
+    increment 1
+    MAXVALUE 2147483600;  -- Maximum of integer
 --roledetails Table
 CREATE TABLE unihot.roledetails (
-    roleid                  varchar(100) NOT NULL,
+    roleid                  varchar(100)  DEFAULT (('RL'::text || to_char(CURRENT_TIMESTAMP, 'DDMMYYYY'::text)) ||
+                                             nextval('unihot.roleid_sequence'::regclass)) NOT NULL ,
     rolename                varchar(100) NOT NULL,
     entityid                varchar(100) NOT NULL REFERENCES unihot.entity(entityid),
     entitybranchid          varchar(100) NOT NULL REFERENCES unihot.entity_branch(entitybranchid),
@@ -169,22 +174,33 @@ CREATE TABLE unihot.secrettkn (
 --INSERT for public entity
 INSERT INTO unihot.secrettkn VALUES ('secret01','31082019193003',CURRENT_TIMESTAMP);
 
+CREATE SEQUENCE unihot.moduleid_sequence
+    START 1
+    increment 1
+    MAXVALUE 2147483600;  -- Maximum of integer
 
---master Module/SubModule Table
+CREATE SEQUENCE unihot.submoduleid_sequence
+    START 1
+    increment 1
+    MAXVALUE 2147483600;  -- Maximum of integer
+
+--Master Module/SubModule Table
 CREATE TABLE unihot.moduledetails (
-    moduleid                varchar(100) NOT NULL,
+    moduleid                varchar(100) DEFAULT (('MD'::text || to_char(CURRENT_TIMESTAMP, 'DDMMYYYY'::text)) ||
+                                             nextval('unihot.moduleid_sequence'::regclass)) NOT NULL ,
     modulename              varchar(100) NOT NULL,
-    submoduleid             varchar(100) NOT NULL,
+    submoduleid             varchar(100) DEFAULT (('SM'::text || to_char(CURRENT_TIMESTAMP, 'DDMMYYYY'::text)) ||
+                                             nextval('unihot.submoduleid_sequence'::regclass)) NOT NULL ,
     submodulename           varchar(100) NOT NUll,
-    modulestatus            varchar(2),
-    octime                  timestamp with time zone    NOT NULL, --First Creation time
-    lmtime                  timestamp with time zone    NOT NULL, -- Last Modification Time
+    modulestatus            varchar(2),                           -->  'A','I','D' (Active/Inactive/Delete)
+    octime                  timestamp with time zone    NOT NULL, -->   First Creation time
+    lmtime                  timestamp with time zone    NOT NULL, -->   Last Modification Time
     CONSTRAINT module_details_pk PRIMARY KEY (moduleid, submoduleid)
 );
 
 --ModuleAccess Table
 CREATE TABLE unihot.moduleaccess (
-    modulerefid             varchar(100) NOT NULL,                      -->  'A','I','D' (Active/Inactive/Delete)
+    modulerefid             varchar(100) NOT NULL,
     moduleid                varchar(100) NOT NULL,
     submoduleid             varchar(100) NOT NULL,
     submoduleaccess         varchar(2) NOT NULL,                        --> 'W','R','N' (Write/Read/No)
@@ -193,6 +209,25 @@ CREATE TABLE unihot.moduleaccess (
     muserid                 varchar(100),                               -->  Who Last Modified
     CONSTRAINT module_access_pk PRIMARY KEY (modulerefid, moduleid,submoduleid )
 );
+
+INSERT INTO unihot.moduledetails (modulename,submodulename,modulestatus,octime,lmtime)
+   VALUES ('Hotel POS Module', 'X','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Hotel POS Module', 'Y','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Hotel POS Module', 'Z','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Accounting Module', 'Q','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Accounting Module', 'R','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Room Book Module', 'X','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Room Book Module', 'Y','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Super Market POS Module', 'Q','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Super Market POS Module', 'T','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Super Market POS Module', 'U','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Inventory Module', 'Q','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Inventory Module', 'B','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Inventory Module', 'T','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Reports Module', 'R','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Reports Module', 'Q','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Reports Module', 'G','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP),
+          ('Reports Module', 'H','A',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
 
 
 
