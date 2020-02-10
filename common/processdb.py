@@ -195,11 +195,11 @@ def insert_update_useraccess(con, cur, insertuseraccess):
                                 INSERT INTO unihot.useraccess (userid, logintype, usertype,
                                                                 entityid, entitybranchid, defaultindicator,
                                                                  roleid, site, accessstatus,
-                                                                  octime, lmtime)
+                                                                 muserid, octime, lmtime)
                                 VALUES (%s,%s,%s,
                                         %s,%s,%s,
                                          %s, %s, %s,
-                                          CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+                                          %s, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
                                 """, (
             insertuseraccess['values']['userid'],
             insertuseraccess['values']['logintype'],
@@ -209,7 +209,8 @@ def insert_update_useraccess(con, cur, insertuseraccess):
             insertuseraccess['values']['defaultindicator'],
             insertuseraccess['values']['roleid'],
             insertuseraccess['values']['entitywebsite'],
-            insertuseraccess['values']['accessstatus'],))
+            insertuseraccess['values']['accessstatus'],
+            insertuseraccess['values']['userid']))
         print(command)
         cur, s, f1 = db.mydbfunc(con, cur, command)
         return cur, s, f1

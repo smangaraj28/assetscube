@@ -111,8 +111,8 @@ CREATE TABLE unihot.useraccess (
     userid                     varchar(100) NOT NULL,
     logintype                  varchar(2) NOT NULL,  --> based on admin user (T - Thirdparty, S - Standalone)
     usertype                   varchar(2) NOT NULL, --> based on admin user (C - Thirdparty COMPANY, I - Thirdparty individual, S - Standalone Company)
-    entity                     varchar(20) NOT NULL ,
-    entitybranch               varchar(10) NOT NULL ,
+    entityid                   varchar(100) NOT NULL ,
+    entitybranchid             varchar(100) NOT NULL ,
     defaultindicator           varchar(1) NOT NULL,
     roleid                     varchar(100),            --> from role setup table ADMIN,READONLY,WRITE,NODELETE
     site                       varchar(100),            --> nc - Nawalcube, dv - developer, au - auth, ng - NawalGold
@@ -120,7 +120,7 @@ CREATE TABLE unihot.useraccess (
     muserid                    varchar(100),            --> Who Modified/Created User
     octime                     timestamp with time zone    NOT NULL,    --> First Creation time
     lmtime                     timestamp with time zone    NOT NULL,    --> Last Modification Time
-    CONSTRAINT user_access_pk PRIMARY KEY (userid, logintype, usertype, entity, entitybranch, site)
+    CONSTRAINT user_access_pk PRIMARY KEY (userid, logintype, usertype, entityid, entitybranchid, site)
     );
 
 --INSERT for public entity

@@ -1394,7 +1394,7 @@ def signup_common(sign_data, site):
                     command = cur.mogrify("""
                                 WITH et AS (SELECT entityid, entitybranchid FROM unihot.entity_branch WHERE entitybranchname = 'PUBLIC'),
                                     rl AS (SELECT roleid FROM unihot.roledetails WHERE entityid = (SELECT entityid FROM et) and site = %s)
-                                INSERT INTO unihot.useraccess (userid, logintype, usertype, entity, entitybranch, defaultindicator, roleid, site, accessstatus, octime, lmtime)
+                                INSERT INTO unihot.useraccess (userid, logintype, usertype, entityid, entitybranchid, defaultindicator, roleid, site, accessstatus, octime, lmtime)
                                 VALUES (%s,%s,%s,(SELECT entityid from et),(SELECT entitybranchid from et),'Y', (SELECT roleid from rl), %s, 'A', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
                                 """, (site, userid, logintype, usertype, site,))
                     update_access = True
@@ -1404,7 +1404,7 @@ def signup_common(sign_data, site):
                     command = cur.mogrify("""
                             WITH et AS (SELECT entityid, entitybranchid FROM unihot.entity_branch WHERE entitybranchname = 'PUBLIC'),
                                 rl AS (SELECT roleid FROM unihot.roledetails WHERE entityid = (SELECT entityid FROM et) and site = %s)
-                            INSERT INTO unihot.useraccess (userid, logintype, usertype, entity, entitybranch, defaultindicator, roleid, site, accessstatus, octime, lmtime)
+                            INSERT INTO unihot.useraccess (userid, logintype, usertype, entityid, entitybranchid, defaultindicator, roleid, site, accessstatus, octime, lmtime)
                             VALUES (%s,%s,%s,(SELECT entityid from et),(SELECT entitybranchid from et),'Y', (SELECT roleid from rl), %s, 'A', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
                             """, (site, userid, logintype, usertype, site,))
                     update_access = True
